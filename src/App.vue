@@ -11,9 +11,10 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background: url("./assets/images/pattern-1.png");
 }
 body {
   overflow-x: hidden;
+  height: 100vh;
+  background: url("./assets/images/pattern-1.png");
 }
 </style>

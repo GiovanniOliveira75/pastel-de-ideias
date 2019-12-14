@@ -19,6 +19,7 @@
                 rules="required|min:3|max:60"
                 name="título do pedido"
                 v-slot="{ classes, errors }"
+                class="form-input"
               >
                 <b-form-input
                   @keypress.enter="passes(onSubmit)"
@@ -33,6 +34,7 @@
                 rules="required|min:3|max:60"
                 name="sabor"
                 v-slot="{ classes, errors }"
+                class="form-input"
               >
                 <b-form-input
                   @keypress.enter="passes(onSubmit)"
@@ -47,6 +49,7 @@
                 rules="required|numeric"
                 name="preço"
                 v-slot="{ classes, errors }"
+                class="form-input"
               >
                 <b-form-input
                   v-model="form.price"
@@ -60,7 +63,7 @@
               </ValidationProvider>
             </div>
 
-            <div class="form-group">
+            <div class="form-group description">
               <b-form-textarea v-model="form.description" placeholder="Descrição"></b-form-textarea>
             </div>
             <vue-dropzone
@@ -71,7 +74,6 @@
               :options="dropzoneOptions"
               :useCustomSlot="true"
               v-model="form.img"
-              required
             >
               <div class="dropzone-custom-content">
                 <h3 class="dropzone-custom-title">
@@ -117,7 +119,7 @@ export default {
         taste: "",
         price: "",
         description: "",
-        img: null
+        img: "https://via.placeholder.com/150"
       },
       dropzoneOptions: {
         url: "https://api.imgur.com/3/upload",
@@ -138,14 +140,16 @@ export default {
     checked(value) {
       if (value) this.productType = "Drink";
       else this.productType = "Food";
-    },
-    /* resetData(value) {
-      if (value) this.onReset();
-    } */
+    }
   },
   methods: {
     onSubmit() {
-      this.$refs.Dropzone.processQueue();
+      let count = this.$refs.Dropzone.getAcceptedFiles().length;
+      if (count > 0) {
+        this.$refs.Dropzone.processQueue();
+      } else {
+        this.resolverForm();
+      }
     },
     onReset() {
       this.form.titleOrder = "";
@@ -155,9 +159,17 @@ export default {
       this.$refs.Dropzone.removeAllFiles();
     },
     uploadSuccess(file, response) {
+      this.resolverForm(response);
+    },
+    resolverForm(response = null) {
       this.form.productType = this.productType;
-      this.form.img = response.data.link;
-      this.$emit("pushItems", this.form);
+
+      if (response !== null) this.form.img = response.data.link;
+
+      const formObject = Object.assign({}, this.form);
+
+      this.$emit("pushItems", formObject);
+      this.onReset();
     }
   }
 };
@@ -201,10 +213,17 @@ export default {
   display: flex;
   margin-bottom: 20px;
 }
-.form-control {
+.form-group .form-input {
+  width: 100%;
   margin: 0 10px;
+}
+.form-control {
   border-radius: 10px;
   border: 1px solid #e43636;
+}
+.description {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 ::-webkit-input-placeholder,
 :-ms-input-placeholder,
@@ -245,5 +264,25 @@ export default {
 .error {
   font-size: 0.876em;
   color: rgb(177, 34, 34);
+}
+@media screen and (max-width: 425px) {
+  .pasteis-img {
+    position: absolute;
+    z-index: -1;
+    top: -100px;
+    right: 20px;
+    height: 200px;
+  }
+  .form-group {
+    display: block;
+    margin-bottom: 20px;
+    margin: 10px;
+  }
+  .header {
+    display: block;
+  }
+  .switch {
+    justify-content: center;
+  }
 }
 </style>

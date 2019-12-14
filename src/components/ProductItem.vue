@@ -1,7 +1,7 @@
 <template>
   <div>
     <section v-if="items.length !== 0">
-      <div class="row product-box mb-5" :key="index" v-for="(product, index) in items">
+      <div class="row product-box mb-5" :key="index" v-for="(product, index) in items.reverse()">
         <div class="col-1 product-img">
           <img :src="product.img" />
         </div>
@@ -17,7 +17,7 @@
                 {{ product.taste }}
               </h5>
               <h5>
-                <b>Sabor:</b>
+                <b>Descrição:</b>
                 {{ product.description }}
               </h5>
             </div>
@@ -42,6 +42,7 @@ export default {
 <style scoped>
 .product-box {
   display: flex;
+  align-items: center;
 }
 .card {
   width: 100%;
@@ -56,7 +57,10 @@ export default {
   z-index: 1;
 }
 img {
-  width: 200px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  width: 170px;
+  height: 150px;
 }
 .header {
   display: flex;
@@ -80,5 +84,13 @@ img {
 .product-content {
   text-align: left;
   margin: 20px 100px;
+}
+@media screen and (max-width: 425px) {
+  .title {
+    margin-left: 0;
+  }
+  .product-content {
+    margin: 20px 30px;
+  }
 }
 </style>

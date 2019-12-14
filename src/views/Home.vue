@@ -3,7 +3,7 @@
     <div class="hero"></div>
     <div class="container">
       <img class="logo" src="../assets/images/Logo.svg" alt />
-      <Form @pushItems="addItems"></Form>
+      <Form class="mb-5" @pushItems="addItems"></Form>
     </div>
     <div class="div" v-if="productItems.length !== 0">
       <h5 class="text-div">Veja como será apresentado ao cliente</h5>
@@ -40,11 +40,6 @@ export default {
 </script>
 
 <style scoped>
-/* .home {
-  background: url("../assets/images/pattern-1.png");
-  width: 100vw;
-  height: 100%;
-} */
 .hero {
   position: absolute;
   left: 0;
@@ -76,5 +71,12 @@ export default {
   color: #a03400;
   background-color: white;
   font: Bold Italic 24px/29px Roboto;
+}
+@media screen and (max-width: 425px) {
+  .logo {
+    position: relative;
+    width: 150px;
+    margin: 10px 10px 120px 10px;
+  }
 }
 </style>
